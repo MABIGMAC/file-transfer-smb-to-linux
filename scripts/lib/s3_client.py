@@ -1,5 +1,5 @@
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, BotoCoreError
 from botocore.config import Config
 from lib.env_var import *
 from datetime import timezone
@@ -35,3 +35,19 @@ def list_bucket_objects(bucket):
         found = True
     if not found:
         print(" - (empty)")
+
+def upload_file_with_validation(bucket, local_path, s3_key):
+    try:
+        bucket.upload_file(local_path, s3_key)
+        print(f"📤 Uploaded '{local_path}' to '{s3_key}'")
+    except (BotoCoreError, ClientError) as e:
+        print(f"❌ Upload failed: {e}")
+        # Check if the file partially exists in S3
+        try:
+            bucket.Object(s3_key).load()
+            print("⚠️ File partially or unexpectedly exists in S3.")
+        except ClientError as err:
+            if err.response['Error']['Code'] == '404':
+                print("✅ No file found in S3 after failed upload.")
+            else:
+                print(f"⚠️ Unexpected error when checking S3: {err}")
