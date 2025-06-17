@@ -1,0 +1,7 @@
+S3_ENDPOINT = 'http://localhost:9000'
+AWS_ACCESS_KEY = 'minioadmin'
+AWS_SECRET_KEY = 'minioadmin123'
+REGION = 'us-east-1'
+BUCKET_NAME = 'my-test-bucket'
+LOCAL_FILE_PATH = 'data/test.txt'
+S3_KEY = 'uploaded/test.txt'
