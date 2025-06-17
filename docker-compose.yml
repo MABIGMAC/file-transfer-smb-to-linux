@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  smb_sync:
+    image: python-with-smb-lib:latest
+    container_name: smb_sync
+    volumes:
+      - ./transfer.py:/app/transfer.py:ro
+      - ./data:/app/data
+    working_dir: /app
+    command: python transfer.py
