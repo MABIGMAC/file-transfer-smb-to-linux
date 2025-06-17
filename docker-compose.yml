@@ -1,11 +1,26 @@
 version: '3.8'
 
 services:
-  smb_sync:
-    image: python-with-smb-lib:latest
-    container_name: smb_sync
+  # smb_sync:
+  #   image: python-with-smb-lib:latest
+  #   container_name: smb_sync
+  #   volumes:
+  #     - ./scripts:/app/scripts
+  #     - ./data:/app/data
+  #   working_dir: /app
+  #   command: python ./scripts/transfer.py
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"  # S3 API
+      - "9001:9001"  # MinIO web console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    command: server /data --console-address ":9001"
     volumes:
-      - ./scripts:/app/scripts
-      - ./data:/app/data
-    working_dir: /app
-    command: python ./scripts/transfer.py
+      - minio-data:/data
+
+volumes:
+  minio-data:
