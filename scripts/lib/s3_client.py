@@ -1,7 +1,9 @@
 import boto3
 from botocore.exceptions import ClientError
 from botocore.config import Config
-from lib.s3_config import *
+from lib.env_var import *
+from datetime import timezone
+
 
 def get_s3_resource():
     retry_config = Config(retries={'max_attempts': 5, 'mode': 'standard'})
@@ -23,3 +25,13 @@ def ensure_bucket_exists(s3, bucket_name):
         s3.create_bucket(Bucket=bucket_name)
         print(f"🪣 Bucket '{bucket_name}' created.")
     return bucket
+
+def list_bucket_objects(bucket):
+    print(f"\n📂 Contents of bucket '{bucket.name}':")
+    found = False
+    for obj in bucket.objects.all():
+        uploaded_at = obj.last_modified.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S %Z')
+        print(f" - {obj.key} ({obj.size} bytes) | Uploaded at: {uploaded_at}")
+        found = True
+    if not found:
+        print(" - (empty)")

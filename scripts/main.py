@@ -1,7 +1,7 @@
 import os
-from lib.s3_config import *
-from lib.s3_helpers import md5_checksum, list_bucket_objects
-from lib.s3_client import get_s3_resource, ensure_bucket_exists
+from lib.env_var import *
+from lib.utils import md5_checksum
+from lib.s3_client import get_s3_resource, ensure_bucket_exists, list_bucket_objects
 
 # === Write test file ===
 os.makedirs(os.path.dirname(LOCAL_FILE_PATH), exist_ok=True)
