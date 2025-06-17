@@ -5,7 +5,7 @@ services:
     image: python-with-smb-lib:latest
     container_name: smb_sync
     volumes:
-      - ./transfer.py:/app/transfer.py:ro
+      - ./scripts:/app/scripts
       - ./data:/app/data
     working_dir: /app
-    command: python transfer.py
+    command: python ./scripts/transfer.py
