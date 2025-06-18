@@ -26,6 +26,12 @@ def ensure_bucket_exists(s3, bucket_name):
         print(f"🪣 Bucket '{bucket_name}' created.")
     return bucket
 
+# Check if file already exists in S3
+def file_exists_in_s3(s3_client, s3_bucket, file_key):
+    # Use s3_client.head_object() or list_objects_v2()
+    # Return True if exists, False otherwise
+    pass
+
 def list_bucket_objects(bucket):
     print(f"\n📂 Contents of bucket '{bucket.name}':")
     found = False
