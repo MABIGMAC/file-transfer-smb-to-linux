@@ -8,3 +8,6 @@ def md5_checksum(file_path):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+def convert_to_s3_key(file_path):
+    # Normalize to "folder/file" format, remove SMB share root
+    return file_path.replace("\\", "/").lstrip("/")
