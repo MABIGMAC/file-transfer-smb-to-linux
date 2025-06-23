@@ -44,6 +44,7 @@ def list_bucket_objects(bucket):
 
 def upload_file_with_validation(bucket, local_path, s3_key):
     try:
+        print(f"🔄 Uploading '{local_path}' to S3 bucket '{bucket.name}' as '{s3_key}'...")
         bucket.upload_file(local_path, s3_key)
         print(f"📤 Uploaded '{local_path}' to '{s3_key}'")
     except (BotoCoreError, ClientError) as e:
