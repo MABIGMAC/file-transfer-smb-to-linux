@@ -1,7 +1,7 @@
 import os
 from lib.env_var import *
 from lib.utils import verify_upload
-from lib.s3_client import get_s3_resource, ensure_bucket_exists, list_bucket_objects, upload_file_with_validation
+from lib.s3_client import get_s3_resource, ensure_bucket_exists, list_bucket_objects, upload_file_with_validation, put_object_with_validation
 
 # # === Write test file ===
 # os.makedirs(os.path.dirname(LOCAL_FILE_PATH), exist_ok=True)
@@ -16,8 +16,8 @@ print("✅ Connected to S3")
 bucket = ensure_bucket_exists(s3, BUCKET_NAME)
 
 # Upload file
-upload_file_with_validation(bucket, LOCAL_FILE_PATH, S3_KEY)
-print(f"📤 Uploaded '{LOCAL_FILE_PATH}' to '{S3_KEY}'")
+# upload_file_with_validation(bucket, LOCAL_FILE_PATH, S3_KEY)
+put_object_with_validation(bucket, LOCAL_FILE_PATH, S3_KEY)
 
 # # Verify with checksum
 # local_md5 = md5_checksum(LOCAL_FILE_PATH)
