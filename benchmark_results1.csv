@@ -1,0 +1,5 @@
+threads,duration_sec,cpu_percent_before,cpu_percent_after,mem_mb_before,mem_mb_after
+1,482.47,0.0,0.0,47.27,55.55
+4,143.51,0.0,0.0,55.55,70.17
+8,103.58,0.0,0.0,70.17,83.07
+16,89.74,0.0,0.0,83.07,107.19
