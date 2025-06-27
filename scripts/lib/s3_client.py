@@ -1,6 +1,7 @@
 import time
 import boto3
 from botocore.exceptions import ClientError, BotoCoreError
+from boto3.s3.transfer import TransferConfig
 from botocore.config import Config
 from lib.env_var import *
 from datetime import timezone
@@ -48,7 +49,14 @@ def upload_file_with_validation(bucket, local_path, s3_key):
         print(f"🔄 Uploading '{local_path}' to S3 bucket '{bucket.name}' as '{s3_key}'...")
         start_time = time.time()  # ⏱️ Start timer
 
-        bucket.upload_file(local_path, s3_key)
+        config = TransferConfig(
+        multipart_threshold=8 * 1024 * 1024,
+        max_concurrency=64,
+        multipart_chunksize=8 * 1024 * 1024,
+        use_threads=True
+        )
+
+        bucket.upload_file(local_path, s3_key, Config=config)
 
         end_time = time.time()    # ⏱️ End timer
         duration = end_time - start_time
