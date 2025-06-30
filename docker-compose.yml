@@ -21,6 +21,12 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio-data:/data
-
+  jupy:
+    image: quay.io/jeremyyg1996/jupy:0.1
+    container_name: jupy
+    ports:
+      - "8888:8888"  # Jupyter Notebook
+    volumes:
+      - ./scripts:/home/jovyan/scripts  # Mount local 'scripts' folder into the container
 volumes:
   minio-data:
