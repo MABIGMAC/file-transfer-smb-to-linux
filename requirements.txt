@@ -1,2 +1,3 @@
 pysmb
 boto3
+botocore
