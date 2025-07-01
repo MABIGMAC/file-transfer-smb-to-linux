@@ -21,6 +21,16 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio-data:/data
+  smb:
+    image: dperson/samba
+    container_name: test_smb
+    volumes:
+      - ./smbdata:/mount/data
+    command: >
+      -u "testuser;testpass" 
+      -s "share;/mount/data;yes;no;yes;all;none"
+    restart: unless-stopped
+  
   jupy:
     image: quay.io/jeremyyg1996/jupy:0.1
     container_name: jupy
@@ -28,5 +38,6 @@ services:
       - "8888:8888"  # Jupyter Notebook
     volumes:
       - ./scripts:/home/jovyan/scripts  # Mount local 'scripts' folder into the container
+      - ./data:/home/jovyan/data  # Mount local 'data' folder into the container
 volumes:
   minio-data:
