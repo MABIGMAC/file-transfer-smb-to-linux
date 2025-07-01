@@ -5,7 +5,9 @@ from boto3.s3.transfer import TransferConfig
 from botocore.config import Config
 from lib.env_var import *
 from datetime import timezone
-
+import tempfile
+import shutil
+from smbclient import open_file
 
 def get_s3_resource():
     retry_config = Config(retries={'max_attempts': 5, 'mode': 'standard'})
@@ -97,3 +99,28 @@ def put_object_with_validation(bucket, local_path, s3_key):
                 print("✅ No file found in S3 after failed put.")
             else:
                 print(f"⚠️ Unexpected error when checking S3: {err}")
+
+def upload_smb_file_to_s3(bucket, smb_path, s3_key):
+    # Create a temporary local file
+    with tempfile.NamedTemporaryFile(delete=True) as tmpfile:
+        # Copy SMB file contents into the temp file
+        with open_file(smb_path, mode="rb") as smb_f:
+            shutil.copyfileobj(smb_f, tmpfile)
+            tmpfile.flush()
+
+        # Now upload local temp file to S3
+        upload_file_with_validation(bucket, tmpfile.name, s3_key)
+
+def upload_smb_file_to_s3_stream(bucket, smb_path, s3_key):
+    """
+    Upload file directly from SMB to S3 by streaming without creating a temp file.
+    `bucket` is a boto3 S3 Bucket resource.
+    """
+    s3_client = bucket.meta.client
+    try:
+        print(f"🔄 Streaming upload of SMB file '{smb_path}' to S3 '{bucket.name}/{s3_key}'...")
+        with open_file(smb_path, 'rb') as smb_f:
+            s3_client.upload_fileobj(smb_f, bucket.name, s3_key)
+        print(f"✅ Streaming upload complete: '{s3_key}'")
+    except (BotoCoreError, ClientError, IOError) as e:
+        print(f"❌ Streaming upload failed: {e}")

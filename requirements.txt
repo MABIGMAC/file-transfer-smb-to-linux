@@ -14,6 +14,7 @@ certifi==2025.6.15
 cffi==1.17.1
 charset-normalizer==3.4.2
 comm==0.2.2
+cryptography==45.0.4
 debugpy==1.8.14
 decorator==5.2.1
 defusedxml==0.7.1
@@ -67,7 +68,7 @@ pyasn1==0.6.1
 pycparser==2.22
 Pygments==2.19.2
 pysmb==1.2.11
-smbprotocol
+pyspnego==0.11.2
 python-dateutil==2.9.0.post0
 python-json-logger==3.3.0
 PyYAML==6.0.2
@@ -81,6 +82,7 @@ s3transfer==0.13.0
 Send2Trash==1.8.3
 setuptools==80.9.0
 six==1.17.0
+smbprotocol==1.15.0
 sniffio==1.3.1
 soupsieve==2.7
 stack-data==0.6.3
