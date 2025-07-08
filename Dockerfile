@@ -13,7 +13,18 @@ ENV HOME=/home/jovyan
 # Switch to root temporarily to set up filesystem
 USER root
 
-# Create virtual environment
+# Install Samba and Kerberos clients
+RUN apk add --no-cache \
+    krb5 \
+    krb5-conf \
+    cifs-utils \
+    samba-client \
+    samba-common-tools \
+    keyutils \
+    curl \
+    bash
+
+# Create virtual environment and install dependencies
 RUN python -m venv /venv && \
     mkdir -p /tmp/jupyter-runtime /tmp/jupyter-data /tmp/jupyter-config /home/jovyan && \
     chmod -R 0777 /tmp /home/jovyan
