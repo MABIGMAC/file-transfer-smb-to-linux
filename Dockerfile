@@ -22,7 +22,13 @@ RUN apk add --no-cache \
     samba-common-tools \
     keyutils \
     curl \
-    bash
+    bash \
+    gcc \
+    krb5-dev \
+    python3-dev \
+    py3-pip \
+    libffi-dev \
+    openssl-dev
 
 # Create virtual environment and install dependencies
 RUN python -m venv /venv && \
