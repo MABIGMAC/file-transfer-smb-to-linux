@@ -39,9 +39,9 @@ RUN python -m venv /venv && \
     mkdir -p /tmp/jupyter-runtime /tmp/jupyter-data /tmp/jupyter-config /home/jovyan && \
     chmod -R 0777 /tmp /home/jovyan
 
-COPY requirements.txt /tmp
+COPY requirements.in /tmp
 RUN pip install --no-cache-dir jupyterlab && \
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    pip install --no-cache-dir -r /tmp/requirements.in
 
 WORKDIR /home/jovyan
 
